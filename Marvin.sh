@@ -1,10 +1,11 @@
 #! /bin/bash
 
 cd $(dirname $0)
-. ./misc.sh
+. ./lib/misc.sh
 
-MISC_initialize_param 
+clear
 
+MISC_initialize_param $1 $2 $3 $4
 
 choix=20
 while [ $choix -gt 5 ]
@@ -32,9 +33,10 @@ echo -e "\n"
 
 case $choix in
 	1) ./UC/ON_OFF.sh $verb $dut1 $locat $time ;;
-	2) echo -e "Data Transfer Over Internet - Wlan \n Feasibility study in progress.. " ;;
-	3) echo -e "Configure System - Config WLAN - WLAN Stand By \n Automation process for some TCDs is aborted, or pending for feasibility study" ;;
-	4) echo -e "Provision Device - MAC adresses provisioning \n Aborted - will not be implemented!" ;;
+	2) echo -e "Data Transfer Over Internet - Wlan \n Feasibility study in progress.. " ; sleep 2 ; ./Marvin.sh $verb $dut1 $locat $time ;;
+	3) echo -e "Configure System - Config WLAN - WLAN Stand By \n Automation process for some TCDs is aborted, or pending for feasibility study" ; sleep 2 ; ./Marvin.sh $verb $dut1 $locat $time ;;
+	4) echo -e "Provision Device - MAC adresses provisioning \n Aborted - will not be implemented!" ; sleep 2 ; ./Marvin.sh $verb $dut1 $locat $time ;;
+	5) ./UC/Config_Wlan.sh $verb $dut1 $locat $time ;;
 	0) exit ;;
 esac
 
