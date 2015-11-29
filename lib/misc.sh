@@ -56,6 +56,7 @@ function MISC_generate_report ()
 	echo -e "$timestamp  $result" >> $locat/Reports/$jour/"report - $time"
 }
 
+# Special management for failed results
 function MISC_generate_report_failed_result ()
 {
 	passed="FAIL"
