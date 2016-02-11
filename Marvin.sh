@@ -18,6 +18,7 @@ do
 	echo "4) Provision Device - MAC adresses provisioning"
 	echo "5) Configure System - Config WLAN"
 	echo "0) Quit"
+	echo -e "\n Your choice : "
 	read choix
 	if [ $choix -gt 5 ]
 	then
