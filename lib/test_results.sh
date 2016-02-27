@@ -10,7 +10,9 @@ function TR_check_wifi_on ()
 	then
 		echo "Wifi is turned ON successfully"
 	else
-
+		if [ "$?" = 1 ] ; then
+		zenity --error --text="Wi-Fi could not be operated."
+		fi
 		echo -e " ${red} Test fail at step1: Turn Wifi ON ${noc} "
 		MISC_generate_report_failed_result
 		MISC_wait_press_key

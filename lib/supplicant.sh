@@ -16,7 +16,7 @@ function SUPP_wifi_on ()
 # Scan for available Wifi network, and let user select one of them
 function SUPP_scan_process ()
 {
-	loopscan=`adb -s $dut1 shell wpa_cli IFNAME=wlan0 scan | grep OK`
+	loopscan=`wpa_cli -iwlan0 scan | grep OK`
 	echo -e "Scaning ...\n"
 	sleep 1
 	i=0
@@ -24,25 +24,29 @@ function SUPP_scan_process ()
 	do
 		sleep 1
 		((i++))
-		loopscan=`adb -s $dut1 shell wpa_cli IFNAME=wlan0 scan | grep OK`
+		loopscan=`wpa_cli -iwlan0 scan | grep OK`
 	done
 
 	
-	scanning=`adb -s $dut1 shell wpa_cli IFNAME=wlan0 scan_results | cut -f5 | tail -n +3`
-	nb=`echo "$scanning" | wc -l`	
-
-	PS3='Please select a WLAN network from the following list : '
-	select ssid in $scanning
-	do
-		if [ $REPLY -gt 0 ] && [ $REPLY -le $nb ]
-		then
-			echo -e "\n You have selected : " $ssid
-			break
-		else
-			echo "Bad choice !"
-		fi
-	done
-	ssid=`echo $ssid | tr -d '\r'`
+	scanning=`wpa_cli -iwlan0 scan_results | cut -f5 | tail -n +3`
+	
+	zenity --entry --title="Available Wi-Fi network" --text="Select a Wi-Fi network" $scanning 
+	
+	
+# 	nb=`echo "$scanning" | wc -l`	
+# 
+# 	PS3='Please select a WLAN network from the following list : '
+# 	select ssid in $scanning
+# 	do
+# 		if [ $REPLY -gt 0 ] && [ $REPLY -le $nb ]
+# 		then
+# 			echo -e "\n You have selected : " $ssid
+# 			break
+# 		else
+# 			echo "Bad choice !"
+# 		fi
+# 	done
+# 	ssid=`echo $ssid | tr -d '\r'`
 }
 
 # Provide which type of security is needed each test to execute (between open, wep and WPA/WPA2)

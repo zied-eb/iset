@@ -34,26 +34,19 @@ echo -e "- <AP DTIM> = $param \n"
 MISC_wait_press_key
 
 
-## DUT connection
-clear
-echo "Checking DUT connection to PC .."
-
-PRE_check_device > /dev/$sortie
-
-
 ## Confirm that wifi is off and no remembered networks
 echo "Removing remembered wifi networks.."
-PRE_remove_remembered_networks > /dev/$sortie
+#PRE_remove_remembered_networks > /dev/$sortie
 
 
 ## Turn OFF Wifi
 echo "Checking wifi status.."
-PRE_check_wifi_status > /dev/$sortie
+#PRE_check_wifi_status > /dev/$sortie
 
 
 ## Checking wpa_supplicant.conf existance..
 echo "Checking wpa_supplicant.conf existance .."
-PRE_check_sup_conf_file > /dev/$sortie
+#PRE_check_sup_conf_file > /dev/$sortie
 
 
 #########################################################################
@@ -70,41 +63,46 @@ PRE_check_sup_conf_file > /dev/$sortie
 #################
 
 echo "1. Turn Wifi ON"
-SUPP_wifi_on > /dev/$sortie
+#SUPP_wifi_on > /dev/$sortie
 
 ## check results
-TR_check_wifi_on > /dev/$sortie
+#TR_check_wifi_on > /dev/$sortie
 
 #################
 # Test step 2	#
 #################
- 
-## Asking user to set DTIM to required value
-echo -e "2. Please set you AP DTIM to $param \n \n "
-MISC_wait_press_key
-
-#################
-# Test step 3	#
-#################
-
-## Let user check fi DTIM is correct using the sniffer
-echo -e "Check if DTIM is correct, using a sniffer"
-sleep 1
-
-MISC_wait_press_key
-
-#################
-# Test step 4	#
-#################
 
 ## Proceed in the connection process
-SUPP_scan_process
-SUPP_define_key_mgmt
-SUPP_define_encryption > /dev/$sortie
-SUPP_connect_network > /dev/$sortie
+if [ $verb -gt 1 ] 
+then
+	(
+	echo "10" ; sleep 1
+	echo "# Define the key management.." ; sleep 1
+	echo "20" ; sleep 1
+	echo "# Define encryption .." ; sleep 1
+	echo "30" ; sleep 1
+	echo "# Communicating with access point .." ; sleep 1
+	echo "40" ; sleep 1
+	echo "# Connecting .." ; sleep 1
+	echo "50" ; sleep 1; echo "60" ; sleep 1 ; echo "70" ; sleep 1; echo "80" ; sleep 1; echo "90" ; sleep 1 ; echo "100" ; sleep 1
+	) |
+	zenity --progress \
+	--title="Connexion to AP" \
+	--text="Start to connect..." \
+	--auto-close \
+	--percentage=0
+else
+	echo "Wait, test execution in progress"
+	sleep 2
+fi
+
+# SUPP_scan_process
+# SUPP_define_key_mgmt
+# SUPP_define_encryption > /dev/$sortie
+# SUPP_connect_network > /dev/$sortie
 
 # Check connection
-TR_check_connection
+# TR_check_connection
 
 # Ask for the access point IP from user
 read -p "Please provide access point IP : " ipaddress
@@ -117,8 +115,8 @@ read -p "Please provide access point IP : " ipaddress
 
 echo "Ping AP from DUT, please wait .."
 
-SUPP_ping_process > /dev/$sortie
-TR_ping_results > /dev/$sortie
+# SUPP_ping_process > /dev/$sortie
+# TR_ping_results > /dev/$sortie
 
 
 #########################################################################

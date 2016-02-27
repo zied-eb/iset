@@ -15,8 +15,8 @@ do
 	echo "1. FT_CWS_WLAN_STA_FNC_ON_OFF"
 	echo "2. Return to the main use case list"
 	echo "0. Quit"
-	echo -e "\n Please select an option : "
-	read TCD
+	echo -e "\n "
+	read -p "Please select an option : " TCD
 
 	if [ $TCD -gt 2 ]
 	then
